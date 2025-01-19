@@ -1,0 +1,135 @@
+# 1) The sum of Two Numbers
+
+# Get input from the user
+num1 = int(input("Enter the first number: "))
+num2 = int(input("Enter the second number: "))
+# Calculate the sum
+sum_of_numbers = num1 + num2
+# Print the result
+print("The sum of", num1, "and", num2, "is:", sum_of_numbers)
+
+# 2) Odd or Even
+
+# Get input from the user
+number = int(input("Enter a number: "))
+# Check if the number is even
+if number % 2 == 0:
+    print("Even")
+else:
+    print("Odd")
+
+# 3) Factorial Calculation
+
+import math
+def factorial(n):
+    if n < 0:
+        return "Factorial is not defined for negative numbers."
+    elif n == 0:
+        return 1
+    else:
+        return math.factorial(n)
+# Get input from the user
+num = int(input("Enter a number: "))
+# Calculate the factorial
+result = factorial(num)
+# Print the result
+print("The factorial of", num, "is:", result)
+
+# 4) Fibonacci Sequence
+ 
+def fibonacci_sequence(n): 
+  if n <= 0:
+    return []
+  fib_sequence = [0, 1]  # Initialize with the first two Fibonacci numbers
+  while len(fib_sequence) < n:
+    next_fib = fib_sequence[-1] + fib_sequence[-2]
+    fib_sequence.append(next_fib)
+  return fib_sequence
+# Generate the first 10 Fibonacci numbers
+n = 10
+result = fibonacci_sequence(n)
+print("The first", n, "Fibonacci numbers are:", result)
+
+# 5) Reverse a String 
+
+def reverse_string(s):  
+  return s[::-1]
+# Get input from the user
+input_string = input("Enter a string: ")
+# Reverse the string
+reversed_string = reverse_string(input_string)
+# Print the result
+print("Reversed string:", reversed_string)
+
+# 6) Palindrome Check 
+
+def is_palindrome(s):  
+  # Remove spaces and convert to lowercase for case-insensitive check
+  s = s.replace(" ", "").lower() 
+  return s == s[::-1]
+# Get input from the user
+input_string = input("Enter a string: ")
+# Check if the string is a palindrome
+if is_palindrome(input_string):
+  print("The string is a palindrome.")
+else:
+  print("The string is not a palindrome.")
+
+  # 7) Leap Year Check
+
+def is_leap_year(year):  
+  if (year % 4 == 0 and year % 100 != 0) or year % 400 == 0:
+    return True
+  else:
+    return False
+# Get input from the user
+year = int(input("Enter a year: "))
+# Check if it's a leap year
+if is_leap_year(year):
+  print(year, "is a leap year.")
+else:
+  print(year, "is not a leap year.")
+
+# 8) Armstrong Number
+
+def is_armstrong_number(n):  
+  # Convert the number to a string
+  num_str = str(n) 
+  # Calculate the number of digits
+  num_digits = len(num_str)
+  # Calculate the sum of digits raised to the power of the number of digits
+  sum_of_powers = sum(int(digit) ** num_digits for digit in num_str)
+  # Check if the number is equal to the sum of power
+  return n == sum_of_powers
+# Get input from the user
+num = int(input("Enter a number: "))
+# Check if the number is an Armstrong number
+if is_armstrong_number(num):
+  print(num, "is an Armstrong number.")
+else:
+  print(num, "is not an Armstrong number.")
+
+# 9) Custom Encryption-Decryption System
+
+import string
+
+def encrypt_caesar(text, shift):  
+  alphabet = string.ascii_lowercase
+  encrypted_text = ""
+  for char in text.lower():
+    if char in alphabet:
+      index = (alphabet.index(char) + shift) % len(alphabet)
+      encrypted_text += alphabet[index]
+    else:
+      encrypted_text += char
+  return encrypted_text
+
+def decrypt_caesar(text, shift):  
+  return encrypt_caesar(text, -shift)
+# Example usage
+message = "hello world"
+shift_value = 3
+encrypted_message = encrypt_caesar(message, shift_value)
+print("Encrypted message:", encrypted_message)
+decrypted_message = decrypt_caesar(encrypted_message, shift_value)
+print("Decrypted message:", decrypted_message)
