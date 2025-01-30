@@ -1,0 +1,191 @@
+# 9) Prime Number
+import math
+def is_prime(n):    
+    if n <= 1:  # Numbers less than or equal to 1 are not prime
+        return False    
+    if n <= 3: # 2 and 3 are prime
+        return True
+    if n % 2 == 0 or n % 3 == 0: # Check divisibility by 2 and 3
+        return False
+    # Check divisibility from 5 up to the square root of n
+    i = 5
+    while i * i <= n:
+        if n % i == 0 or n % (i + 2) == 0:
+            return False
+        i += 6  # Optimized by checking only numbers of the form 6k ± 1
+    return True
+# Get input from the user
+num = int(input())
+# Check if the number is prime and print the result
+if is_prime(num):
+    print("True")
+else:
+    print("False")
+
+# 10) Sum of Digits
+
+def sum_of_digits(n):    
+    digit_sum = 0
+    n_str = str(n)  # Convert the number to a string
+    for digit in n_str:
+        digit_sum += int(digit)  # Convert each digit back to an integer and add to the sum
+    return digit_sum
+# Get input from the user
+num = int(input())
+# Calculate and print the sum of digits
+result = sum_of_digits(num)
+print(result)
+
+# 11) LCM and GCD
+
+import math
+
+def calculate_lcm_gcd(a, b):    
+    gcd = math.gcd(a, b)  # Use Python's built-in math.gcd() function
+    lcm = abs(a * b) // gcd  # Calculate LCM using the formula
+    return lcm, gcd
+# Get input from the user
+num1, num2 = map(int, input().split())  # Read two integers separated by space
+# Calculate LCM and GCD
+lcm, gcd = calculate_lcm_gcd(num1, num2)
+# Print the results
+print(lcm, gcd)
+
+# 12) List Reversal
+
+def reverse_list(lst):    
+    start = 0
+    end = len(lst) - 1
+    while start < end:
+        # Swap elements at start and end indices
+        lst[start], lst[end] = lst[end], lst[start]  # Efficient swapping in Python
+        start += 1
+        end -= 1
+    return lst  # Although the list is modified in-place, it's good practice to return it.
+# Get input from the user (assuming comma-separated integers)
+input_str = input()
+num_list = [int(x) for x in input_str.split(',')]
+
+# Reverse the list
+reversed_list = reverse_list(num_list)
+
+# Print the reversed list
+print(reversed_list)
+
+# 13) Sort a List
+
+def sort_list(lst):    
+    n = len(lst)
+    # Bubble Sort (you can replace this with other sorting algorithms if you want)
+    for i in range(n):
+        for j in range(0, n - i - 1):
+            if lst[j] > lst[j + 1]:
+                lst[j], lst[j + 1] = lst[j + 1], lst[j]  # Swap elements
+    return lst
+# Get input from the user (comma-separated integers)
+input_str = input()
+num_list = [int(x) for x in input_str.split(',')]
+# Sort the list
+sorted_list = sort_list(num_list)
+# Print the sorted list
+print(sorted_list)
+
+# 14)  Remove Duplicates 
+def remove_duplicates_iterative(lst):
+    """Removes duplicates by iterating and checking."""
+    unique_list = []
+    for item in lst:
+        if item not in unique_list:  # Check if the element is already in the unique list
+            unique_list.append(item)
+    return unique_list
+# Example
+my_list = [1, 2, 3, 2, 1, 4, 5, 4]
+unique_list = remove_duplicates_iterative(my_list)
+print(unique_list)  # Output: [1, 2, 3, 4, 5] (order preserved)
+
+# 15) String Length
+
+def remove_duplicates_iterative(lst):
+    """Removes duplicates by iterating and checking."""
+    unique_list = []
+    for item in lst:
+        if item not in unique_list:  # Check if the element is already in the unique list
+            unique_list.append(item)
+    return unique_list
+# Example
+my_list = [1, 2, 3, 2, 1, 4, 5, 4]
+unique_list = remove_duplicates_iterative(my_list)
+print(unique_list)  # Output: [1, 2, 3, 4, 5] (order preserved)
+
+# 16) Count Vowels and Consonants
+
+def count_vowels_and_consonants(text):   
+    vowels = set('aeiouAEIOU')  # Set of vowels (both lowercase and uppercase)
+    vowel_count = 0
+    consonant_count = 0
+    for char in text:
+        if char.isalpha():  # Check if it's an alphabet character
+            if char in vowels:
+                vowel_count += 1
+            else:
+                consonant_count += 1
+    return vowel_count, consonant_count
+# Get input from the user
+input_string = input()
+# Count vowels and consonants
+vowels, consonants = count_vowels_and_consonants(input_string)
+# Print the results
+print(vowels, consonants)
+
+# 2) Maze Generator and Solver
+
+import random
+def generate_maze(rows, cols):
+    """Generates a random maze using Recursive Backtracking."""
+    maze = [['#' for _ in range(cols * 2 + 1)] for _ in range(rows * 2 + 1)]  # Initialize maze with walls
+    def carve_path(row, col):
+        maze[row][col] = ' '  # Mark current cell as path
+        directions = [(0, 2), (2, 0), (0, -2), (-2, 0)]  # Possible directions (2 steps)
+        random.shuffle(directions)  # Randomize direction order
+
+        for dr, dc in directions:
+            nr, nc = row + dr, col + dc
+            if 0 <= nr < rows * 2 + 1 and 0 <= nc < cols * 2 + 1 and maze[nr][nc] == '#':
+                maze[row + dr // 2][col + dc // 2] = ' '  # Carve wall between cells
+                carve_path(nr, nc)
+    carve_path(1, 1)  # Start carving from (1, 1)
+    return maze
+def solve_maze(maze):
+    """Solves the maze using Depth-First Search (DFS)."""
+    rows = len(maze)
+    cols = len(maze[0])
+    def dfs(row, col):
+        if row == rows - 2 and col == cols - 2:  # Reached the end
+            return True
+        if 0 <= row < rows and 0 <= col < cols and maze[row][col] == ' ':
+            maze[row][col] = '.'  # Mark current cell as visited            
+            if dfs(row + 1, col) or dfs(row - 1, col) or dfs(row, col + 1) or dfs(row, col - 1):
+                return True
+            maze[row][col] = ' '  # Backtrack: Unmark if not part of the solution path
+            return False
+        return False
+    if dfs(1, 1):
+        return maze
+    else:
+      return None # no solution found
+def print_maze(maze):
+    """Prints the maze to the console."""
+    for row in maze:
+        print(''.join(row))
+
+# Get maze dimensions from the user (example: 10 10)
+rows, cols = map(int, input().split())
+maze = generate_maze(rows, cols)
+print("Generated Maze:")
+print_maze(maze)
+solved_maze = solve_maze(maze)
+if solved_maze:
+  print("\nSolved Maze:")
+  print_maze(solved_maze)
+else:
+  print("No solution found for this maze.")
