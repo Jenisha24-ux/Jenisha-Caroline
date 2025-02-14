@@ -1,0 +1,239 @@
+# 17) Table of a Number
+
+n = int(input())
+for i in range(1, 11):
+    print(n * i)
+
+# 18) Swap Two Numbers
+
+a = int(input())
+b = int(input())
+a, b = b, a
+print(a)
+print(b)
+
+# 19) Check Substring
+
+s1 = input()
+s2 = input()
+print(s2 in s1)
+
+# 20) Decimal to Binary
+
+n = int(input())
+print(bin(n)[2:])
+
+# 21) Matrix Addition
+
+matrix1 = []
+matrix2 = []
+
+rows1 = int(input("Enter number of rows for matrix 1: "))
+cols1 = int(input("Enter number of columns for matrix 1: "))
+
+print("Enter elements for matrix 1:")
+for i in range(rows1):
+    row = []
+    for j in range(cols1):
+        row.append(int(input()))
+    matrix1.append(row)
+
+rows2 = int(input("Enter number of rows for matrix 2: "))
+cols2 = int(input("Enter number of columns for matrix 2: "))
+
+if rows1 != rows2 or cols1 != cols2:
+    print("Matrices must have the same dimensions for addition.")
+else:
+    print("Enter elements for matrix 2:")
+    for i in range(rows2):
+        row = []
+        for j in range(cols2):
+            row.append(int(input()))
+        matrix2.append(row)
+
+    result = []
+    for i in range(rows1):
+        row_sum = []
+        for j in range(cols1):
+            row_sum.append(matrix1[i][j] + matrix2[i][j])
+        result.append(row_sum)
+
+    print("Sum of the matrices:")
+    for row in result:
+        print(row)
+
+# 22) Matrix Multiplication
+
+matrix1 = []
+matrix2 = []
+
+rows1 = int(input("Enter number of rows for matrix 1: "))
+cols1 = int(input("Enter number of columns for matrix 1: "))
+
+print("Enter elements for matrix 1:")
+for i in range(rows1):
+    row = []
+    for j in range(cols1):
+        row.append(int(input()))
+    matrix1.append(row)
+
+rows2 = int(input("Enter number of rows for matrix 2: "))
+cols2 = int(input("Enter number of columns for matrix 2: "))
+
+
+if cols1 != rows2:
+    print("Matrices cannot be multiplied.")
+else:
+    print("Enter elements for matrix 2:")
+    for i in range(rows2):
+        row = []
+        for j in range(cols2):
+            row.append(int(input()))
+        matrix2.append(row)
+
+    result = []
+    for i in range(rows1):
+        row_result = []
+        for j in range(cols2):
+            element_sum = 0
+            for k in range(cols1):
+                element_sum += matrix1[i][k] * matrix2[k][j]
+            row_result.append(element_sum)
+        result.append(row_result)
+
+    print("Product of the matrices:")
+    for row in result:
+        print(row)
+
+# 23) Find Second Largest
+
+numbers = list(map(int, input().split()))
+
+if len(numbers) < 2:
+    print("List should have at least two numbers")
+else:
+    largest = max(numbers[0], numbers[1])
+    second_largest = min(numbers[0], numbers[1])
+
+    for num in numbers[2:]:
+        if num > largest:
+            second_largest = largest
+            largest = num
+        elif num > second_largest and num != largest:
+            second_largest = num
+
+    print(second_largest)
+
+# 24) Check Anagram
+
+s1 = input()
+s2 = input()
+
+print(sorted(s1) == sorted(s2))
+
+# 3) AI-Based Tic-Tac-Toe
+
+def print_board(board):
+    for row in board:
+        print(" | ".join(row))
+        print("---" * 3)
+
+def check_winner(board):
+    for row in board:
+        if row[0] == row[1] == row[2] != " ":
+            return row[0]
+    for col in range(3):
+        if board[0][col] == board[1][col] == board[2][col] != " ":
+            return board[0][col]
+    if board[0][0] == board[1][1] == board[2][2] != " ":
+        return board[0][0]
+    if board[0][2] == board[1][1] == board[2][0] != " ":
+        return board[0][2]
+    return None
+
+def is_board_full(board):
+    for row in board:
+        for cell in row:
+            if cell == " ":
+                return False
+    return True
+
+def minimax(board, depth, maximizing_player):
+    winner = check_winner(board)
+    if winner:
+        return 1 if winner == "X" else -1, None  # AI wins: 1, Human wins: -1
+    if is_board_full(board):
+        return 0, None
+
+    if maximizing_player:
+        max_eval = -float('inf')
+        best_move = None
+        for i in range(3):
+            for j in range(3):
+                if board[i][j] == " ":
+                    board[i][j] = "X"  # AI's move
+                    eval, _ = minimax(board, depth + 1, False)
+                    board[i][j] = " "  # Undo move (backtracking)
+                    if eval > max_eval:
+                        max_eval = eval
+                        best_move = (i, j)
+        return max_eval, best_move
+    else:
+        min_eval = float('inf')
+        best_move = None
+        for i in range(3):
+            for j in range(3):
+                if board[i][j] == " ":
+                    board[i][j] = "O"  # Human's move
+                    eval, _ = minimax(board, depth + 1, True)
+                    board[i][j] = " "  # Undo move
+                    if eval < min_eval:
+                        min_eval = eval
+                        best_move = (i, j)
+        return min_eval, best_move
+
+def get_human_move(board):
+    while True:
+        try:
+            row = int(input("Enter row (0-2): "))
+            col = int(input("Enter column (0-2): "))
+            if 0 <= row <= 2 and 0 <= col <= 2 and board[row][col] == " ":
+                return row, col
+            else:
+                print("Invalid move. Try again.")
+        except ValueError:
+            print("Invalid input. Enter numbers only.")
+
+def play_game():
+    board = [[" " for _ in range(3)] for _ in range(3)]
+    print("Welcome to Tic-Tac-Toe!")
+    print_board(board)
+
+    while True:
+        # Human's turn
+        row, col = get_human_move(board)
+        board[row][col] = "O"
+        print_board(board)
+        winner = check_winner(board)
+        if winner:
+            print("You win!")
+            break
+        if is_board_full(board):
+            print("It's a tie!")
+            break
+
+        # AI's turn
+        eval, move = minimax(board, 0, True)
+        if move:
+            board[move[0]][move[1]] = "X"
+            print("AI's move:")
+            print_board(board)
+            winner = check_winner(board)
+            if winner:
+                print("AI wins!")
+                break
+            if is_board_full(board):
+                print("It's a tie!")
+                break
+
+play_game()
